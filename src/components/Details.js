@@ -8,10 +8,34 @@ export default function Details(props) {
 
   // 👉 TASK 4 - Create a side effect 🥇 that runs only after first render.
 
+  useEffect(() => {
+    //when component is first rendered
+    console.log(`Effect Only after first render dom surgery`)
+
+    return () => { 
+      // after component is removed from the dom 
+      console.log(`Clean up after component is removed from dom`)
+    }
+    fetchFriends()
+  }, [])
+
   // 👉 TASK 5 - Create a side effect 👻 that runs only after first render
   // and puts a 'click' event handler on document.
   // See what happens if we don't clean up.
 
+  useEffect (() => {
+    const listener = evt => {//dirty thing
+      console.log(`Here is a random number ${Math.random()}`)
+    }
+    document.addEventListener('click',listener)
+    // memory leak after you close the see details it will keep returning a number
+
+    return () => { //cleanup
+      document.removeEventListener('click', listener)
+    }
+// why would we want event listeners in react? to communicate with universe outside of the react application
+
+  },[])
   // 👉 TASK 6 - Create a side effect 🥵 that runs after every render.
 
   // 👉 TASK 7 - Create a side effect 📲 that runs when a particular variable changes:

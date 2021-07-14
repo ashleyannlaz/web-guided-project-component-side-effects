@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+
+import React, { useState, useEffect } from 'react'
+// added useEffect
 // 👉 TASK 1 - import the axios lib from node_modules
-
+import axios from 'axios'
 // 👉 TASK 2 - import the contants from constants/index.js
-
+import { API_KEY, BASE_URL } from '../constants/'
+// named exports with curly brackets
 import Details from './Details'
 
 export default function App() {
+
   const [friends, setFriends] = useState([])
   const [currentFriendId, setCurrentFriendId] = useState(null)
 
@@ -16,11 +20,21 @@ export default function App() {
   const closeDetails = () => {
     setCurrentFriendId(null)
   }
-
   // 👉 TASK 3 - make an effect that runs after FIRST DOM surgery
   // caused by the first render only. You'll need `useEffect` from React.
   // The effect should consist of a call to the API using axios.
   // On success, set the array of friend objects from the API into state.
+
+  useEffect(() => {
+    axios.get(`${BASE_URL}/friends?api_key=${API_KEY}`)
+      .then(res => {
+        console.log(res.data)
+        setFriends(res.data)
+      })
+      .catch(err => console.log(err))
+
+      //we would need to reload to see new data, not new
+  }, [])
 
   const Friend = props => (
     <div className='friend'>
